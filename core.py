@@ -1,11 +1,11 @@
-#version 0.0.1 of basic personal assistant by: Robert Sardilla
+#basic personal assistant by: Robert Sardilla
 #Started development @ february 3 2019 
-version = ("0.0.1 dev build")
+version = ("0.0.2 dev build")
 yes = ["Yes", "yes", "YES", "y", "Y"]
 no = ["No", "no", "NO", "n", "N"]
 male = ["Male", "m", "MALE", "male"]
 female = ["Female", "f", "FEMALE", "female"]
-print("Hi there, i am your basic pesonal assistant")
+print("Hi there, i am your basic personal assistant")
 def yon():
     global username
     give_name = input("May i know your name, maam/sir?, so that i can properly help you (Yes, No): ")
@@ -29,12 +29,12 @@ yon()
 gend()
 import datetime
 atlas = datetime.datetime.now()
-if atlas.hour <= 12:
+if atlas.hour <= 11:
     print("Goodmorning " + gender + " " + username + ",  i am glad to meet you.")
-elif atlas.hour >= 12:
-    print("Good Afternoon " + gender + " " + username + ", i am glad to meet you.")
-elif atlas.hour <= 18:
+elif atlas.hour >= 17:
     print("Good Evening " + gender + " " + username + ", i am glad to meet you.")
+elif atlas.hour >= 11:
+    print("Good Afternoon " + gender + " " + username + ", i am glad to meet you.")
 #commands functions
 def help():
     print(gender +  username + " here are the lists of available commands (1/1)")
@@ -47,12 +47,12 @@ def help():
 def time():
     import datetime
     time = datetime.datetime.now()
-    print(time.hour + time.minute)
+    print(time.strftime("%I-%M-%p"))
     cmd()
 def date():
     import datetime
     date = datetime.datetime.now()
-    print(date)
+    print(date.strftime("%B-%d-%Y"))
     cmd()
 def rename():
     global username
@@ -63,15 +63,14 @@ def versionf():
     print(gender + " " + username + " My current version is " + version)
     cmd()
 def shut_down():
-    sd_option = input("Are you sure you want to shut? (Yes/No) ")
+    sd_option = input("Are you sure you want to shut down? (Yes/No) ")
     if sd_option in yes:
-        print("program closed")
+        print("basic virtual assistant has been shut down")
     elif sd_option in no:
         cmd()
     else:
         print("invalid input")
         shut_down()
-
 #command executer
 def cmd():
     command = input("How may i help you " + gender + " " + username + "? ")
