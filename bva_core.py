@@ -1,32 +1,49 @@
-#basic personal assistant by: Robert Sardilla
+#Basic personal assistant by: Robert Sardilla
 #Started development @ february 3 2019 
-version = ("0.0.2 dev build")
+print("Hi there, i am your basic personal assistant")
+version = ("0.0.3 dev build")
 yes = ["Yes", "yes", "YES", "y", "Y"]
 no = ["No", "no", "NO", "n", "N"]
 male = ["Male", "m", "MALE", "male"]
 female = ["Female", "f", "FEMALE", "female"]
-print("Hi there, i am your basic personal assistant")
-def yon():
+from configparser import ConfigParser
+write_data = ConfigParser()
+def write():
+    write_data = ConfigParser()
+    write_data['bva_user_id'] = {
+    'username': username,
+    'gender': gender,
+    }
+    with open('data_bva.txt', "w") as data_bva:
+        write_data.write(data_bva)
+def name():
     global username
-    give_name = input("May i know your name, maam/sir?, so that i can properly help you (Yes, No): ")
-    if give_name in yes:
-     username = input("What is your name? ")
-    elif give_name in no:
-     username = ("Shy person")
+    input_name = input("May i know your name maam?sir?, so that i can properly help you (Leave Blank to skip): ")
+    if input_name != (""):
+        username = input_name
     else:
-        print("Invalid")
-        yon()
+        username = ("Shy Person")
 def gend():
     global gender
-    give_gender = input("May i know your gender " + username + "? (Male/female, Leave blank to skip): ")
-    if give_gender in male:
+    input_gender = input("May i know your gender " + username + "? (Male/female, Leave blank to skip): ")
+    if input_gender in male:
         gender = ("sir")
-    elif give_gender in female:
+    elif input_gender in female:
         gender = ("maam")
     else:
         gender = ("")
-yon()
-gend()
+try:
+    with open('data_bva.txt', "r") as test_read_bva:
+        read_bva = ConfigParser()
+        read_bva.read('data_bva.txt')
+        (read_bva.get('bva_user_id','username'))
+except:
+    name()
+    gend()
+    write()
+else:
+    username = (read_bva.get('bva_user_id','username'))
+    gender = (read_bva.get('bva_user_id','gender'))
 import datetime
 atlas = datetime.datetime.now()
 if atlas.hour <= 11:
@@ -43,6 +60,8 @@ def help():
     print("date")
     print("rename")
     print("version")
+    print("shut down")
+    print("reset")
     cmd()
 def time():
     import datetime
@@ -58,6 +77,7 @@ def rename():
     global username
     username = input("To what name do you want to change your name " + gender + " " + username +"? ")
     print("Your name has been changed to " + username)
+    write()
     cmd()
 def versionf():
     print(gender + " " + username + " My current version is " + version)
@@ -71,6 +91,17 @@ def shut_down():
     else:
         print("invalid input")
         shut_down()
+def reset():
+    print("Are you really sure you want to erase all of data on your Basic Virtual Assistant?")
+    erase = input("Type \"CONFIRM\" to permanently your bvl data: ")
+    if erase == ("CONFIRM"):
+        import os
+        if os.path.exists("tdl_database.txt"):
+            os.remove("tdl_database.txt")
+            print("Your Bvl database has been reset")
+        else:
+            print("Bvl database does not exist")
+            reset()
 #command executer
 def cmd():
     command = input("How may i help you " + gender + " " + username + "? ")
@@ -86,6 +117,8 @@ def cmd():
         versionf()
     elif command == ("shut down"):
         shut_down()
+    elif command == ("reset"):
+        reset()
     else:
         print("command \"" + command + "\" does not exist")
         print("Pls type help for the list of commands available")
